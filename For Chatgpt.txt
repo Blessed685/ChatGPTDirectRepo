@@ -1,0 +1,74 @@
+------------------------------------
+products/urls.py
+----------------------------------
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.homepage, name='homepage'),
+    path('about/', views.about_page, name='aboutpage'),
+    path('contact/', views.contact_page, name='contactpage')
+]
+
+
+
+----------------------------------
+core urls.py
+----------------------------------
+"""
+URL configuration for core project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/6.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('products.urls'))
+]
+
+
+
+----------------------------------------
+The latest/last base.html that worked
+----------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+</head>
+<body style="margin: 0; font-family: Arial, sans-serif;">
+
+    <!-- NAVBAR -->
+    <header style="background: #111; color: white; padding: 15px;">
+        <h2 style="margin: 0;">Products</h2>
+
+        <nav style="margin-top: 10px;">
+            <a href="/" style="color: white; margin-right: 15px; text-decoration: none;">Home</a>
+            <a href="/about/" style="color: white; margin-right: 15px; text-decoration: none;">About</a>
+            <a href="/contact/" style="color: white; text-decoration: none;">Contact</a>
+        </nav>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <main style="padding: 20px;">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>
