@@ -1,5 +1,6 @@
 package com.example.nokiacalculator
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,6 +29,15 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun CalcScreenAndButton(){
+    var input by remember {
+        mutableStateOf("")
+    }
+    var firstNumber by remember {
+        mutableStateOf("")
+    }
+    var selectedOperator by remember {
+        mutableStateOf("")
+    }
     Column(Modifier.fillMaxSize()){
         Column(Modifier.fillMaxWidth()
             .fillMaxHeight(0.55f)
@@ -36,29 +46,25 @@ fun CalcScreenAndButton(){
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(3f)
-                    .padding(horizontal = 16.dp),
-
+                    .padding(horizontal = 16.dp)
+                    .background(Color.Gray),
                 horizontalArrangement = Arrangement.SpaceBetween,
-
                 verticalAlignment = Alignment.CenterVertically
-
             ) {
-
                 Text(
                     text = selectedOperator,
                     fontSize = 24.sp
                 )
-
                 Text(
                     text = if (input.isEmpty()) "0" else input,
                     fontSize = 30.sp
                 )
-
             }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(6f),
+                    .weight(6f)
+                    .background(Color.LightGray),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -81,7 +87,8 @@ fun CalcScreenAndButton(){
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(2f)
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = 16.dp)
+                    .background(Color.DarkGray),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -103,34 +110,18 @@ fun CalcScreenAndButton(){
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                var input by remember {
-                    mutableStateOf("")
-                }
-
-                var firstNumber by remember {
-                    mutableStateOf("")
-                }
-
-                var selectedOperator by remember {
-                    mutableStateOf("")
-                }
                 OutlinedTextField(
                     value = input,
                     onValueChange = { newInput ->
-
                         // Assume the input is valid.
                         var validInput = true
-
                         // Count decimal points.
                         var decimalCount = 0
-
                         // Check every character.
                         for (character in newInput) {
-
                             if (character == '.') {
                                 decimalCount++
                             }
-
                             // Reject any character that isn't a digit, '.' or '-'.
                             if (
                                 !character.isDigit() &&
@@ -139,74 +130,51 @@ fun CalcScreenAndButton(){
                             ) {
                                 validInput = false
                             }
-
                         }
-
                         // Allow only one decimal point.
                         if (decimalCount > 1) {
                             validInput = false
                         }
-
                         // Count minus signs.
                         var minusCount = 0
-
                         for (index in newInput.indices) {
-
                             if (newInput[index] == '-') {
-
                                 minusCount++
-
                                 // Minus sign must be the first character.
                                 if (index != 0) {
                                     validInput = false
                                 }
-
                             }
-
                         }
-
                         // Allow only one minus sign.
                         if (minusCount > 1) {
                             validInput = false
                         }
-
                         // If valid, clean up the input.
                         if (validInput) {
-
                             var cleanedInput = newInput
-
                             // Remove unnecessary leading zeros.
                             while (
                                 cleanedInput.length > 1 &&
                                 cleanedInput.startsWith("0") &&
                                 cleanedInput[1] != '.'
                             ) {
-
                                 cleanedInput = cleanedInput.substring(1)
-
                             }
-
                             // Remove unnecessary zeros after a minus sign.
                             if (cleanedInput.startsWith("-0")) {
-
                                 while (
                                     cleanedInput.length > 2 &&
                                     cleanedInput[1] == '0' &&
                                     cleanedInput[2] != '.'
                                 ) {
-
                                     cleanedInput =
                                         "-" + cleanedInput.substring(2)
-
                                 }
-
                             }
-
                             // Update the TextField.
                             input = cleanedInput
-
                         }
-
                     },
                     label = {
                         Text("Enter Number")
@@ -216,9 +184,7 @@ fun CalcScreenAndButton(){
         }
         Box(Modifier.fillMaxSize())
     }
-
 }
-
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
